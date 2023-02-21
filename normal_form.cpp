@@ -1,6 +1,7 @@
 #include <string>
 #include <list>
 #include <iostream>
+#include "main.hpp"
 
 using namespace std;
 
@@ -23,7 +24,7 @@ string tree_to_expr(Node* root)
     return res;
 }
 
-Node *expr_to_tree(string formula)
+Node *expr_to_tree(string formula) // TODO detecter les erreurs
 {
     list<Node*> stack;
 
@@ -81,10 +82,10 @@ char opposite(char op)
         return '|';
     if (op == '|')
         return '&';
-    if (op == '=')
-        return '^';
-    if (op == '^')
-        return '=';
+    // if (op == '=')
+    //     return '^';
+    // if (op == '^')
+    //     return '=';
     return op;
 }
 
@@ -94,23 +95,58 @@ contraposée : (a => b) == (!b => !a)
 !(!b => !a) == !(b ou !a) == (!b et a)
 */
 
+Node *clone_tree(Node *root)
+{
+    if (!root)
+        return NULL;
+    Node *n = new Node();
+    n->expr = root->expr;
+    n->left = clone_tree(root->left);
+    n->right = clone_tree(root->right);
+    return n;
+}
+
 void distribute_negation(Node* root)
 {
     if (!root)
         return;
     while (root->expr.size() > 2 && root->expr.substr(root->expr.size() - 2, 2) == "!!")
         root->expr.resize(root->expr.size() - 2);
+
+    // traiter les operateurs = ^ et <, on en veut plus
+    if (root->expr[0] == '^')   {
+        root->expr[0] = '=';
+        root->left->expr += '!';
+    }
+    if (root->expr[0] == '=')   {
+        Node *clonel = clone_tree(root);
+        Node *cloner = clone_tree(root);
+        clear_tree(root->left);
+        clear_tree(root->right);
+        clonel->expr = "&";
+        cloner->expr = "&";
+        cloner->left->expr += '!';
+        cloner->right->expr += '!';
+        root->expr[0] = '|';
+        root->left = clonel;
+        root->right = cloner;
+    }
+    if (root->expr[0] == '<')   {
+        Node *tmp = root->left;
+        root->left = root->right;
+        root->right = tmp;
+        root->expr[0] = '>';
+    }
+    if (root->expr[0] == '>')   {
+        root->left->expr += '!';
+        root->expr[0] = '|';
+    }
     if (root->expr.back() == '!' && isoper(root->expr[0]))
     {
         root->expr.resize(root->expr.size() - 1);
         root->expr[0] = opposite(root->expr[0]);
-        // traiter les opearateurs = ^ et <, on en veut plus
-        if (root->expr[0] == '>')
-            root->expr[0] = '&';
-        else
-            root->left->expr += '!';
+        root->left->expr += '!';
         root->right->expr += '!';
-
     }
     distribute_negation(root->left);
     distribute_negation(root->right);
@@ -131,12 +167,15 @@ string negation_normal_form(string expr)
 int main(int ac, char** argv)
 {
     if (ac > 1)
-        cout << negation_normal_form(argv[1]) << endl;
+    {
+        string equi = negation_normal_form(argv[1]);
+        cout << argv[1] << " " << equi << "\t" << (check_equivalence(argv[1], equi)? "OK!" : "NOOOOPE") << endl;
+    }
     cout << negation_normal_form("CD!&!") << endl;
     cout << negation_normal_form("AB|!") << endl;
     cout << negation_normal_form("AB>!") << endl;
+    cout << negation_normal_form("AB<") << endl;
+    cout << negation_normal_form("AB=") << endl;
     cout << negation_normal_form("AB=!") << endl;
     cout << negation_normal_form("AB^!") << endl;
-
-    
 }
