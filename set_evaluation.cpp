@@ -11,9 +11,9 @@ vector<int> eval_set(string &formula, vector<vector<int>> &sets)
 {
     vector<int> result;
     map<int, bool> indicator;
-    char variables[27] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    char alpha[27] = "ZYXWVUTSRQPONMLKJIHGFEDCBA";
+    char *variables = alpha + 26 - sets.size();
 
-    variables[sets.size()] = '\0';
     for (vector<int> set : sets)
     {
         for (int a : set)
@@ -29,12 +29,13 @@ vector<int> eval_set(string &formula, vector<vector<int>> &sets)
         for (vector<int> set : sets)
         {
             values <<= 1;
-            values &= (find(set.begin(), set.end(), pair.first) != set.end());
+            values |= (find(set.begin(), set.end(), pair.first) != set.end());
         }
         string f = replace_var(formula, variables, values);
         pair.second = eval_formula(f);
         if (pair.second)
             result.push_back(pair.first);
+        // cout << pair.first << "  " << values << " " << f << "  " << pair.second << endl;
     }
     return result;
 }
@@ -44,7 +45,8 @@ int main()
     vector<vector<int>> sets;
     sets.push_back({0, 1, 2, 3, 4});
     sets.push_back({0, 1, 2, 5, 6});
-    string formula = "AB&";
+    sets.push_back({0, 1, 7, 8});
+    string formula = "CA>";
 
     vector<int> result = eval_set(formula, sets);
 
