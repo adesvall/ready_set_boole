@@ -46,7 +46,7 @@ int main()
     sets.push_back({0, 1, 2, 3, 4});
     sets.push_back({0, 1, 2, 5, 6});
     sets.push_back({0, 1, 7, 8});
-    string formula = "CA>";
+    string formula = "CD=";
 
     vector<int> result = eval_set(formula, sets);
 

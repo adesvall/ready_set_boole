@@ -37,12 +37,12 @@ bool eval_formula(string formula)
         else if (c == '=')
             result ^= !tmp;
         else {
-            cout << "\nError: unexpected '" << c << "'" << endl;
+            cout << "Error: unexpected '" << c << "'" << endl;
             return false;
         }
     }
     if (result >> 1)
-        cout << "\nError: expression terminated but still several bits in stack" << endl;
+        cout << "Error: expression terminated but still several bits in stack, expression might be invalid" << endl;
     return result & 1;
 }
 
