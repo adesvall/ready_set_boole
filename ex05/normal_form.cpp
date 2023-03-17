@@ -1,16 +1,4 @@
-#include <string>
-#include <list>
-#include <iostream>
-#include "main.hpp"
-
-using namespace std;
-
-struct Node
-{
-    string  expr;
-    Node*   left;
-    Node*   right;
-};
+#include "../main.hpp"
 
 string tree_to_expr(Node* root)
 {
@@ -24,7 +12,7 @@ string tree_to_expr(Node* root)
     return res;
 }
 
-Node *expr_to_tree(string formula) // TODO detecter les erreurs
+Node *expr_to_tree(string formula)
 {
     list<Node*> stack;
 
@@ -37,7 +25,7 @@ Node *expr_to_tree(string formula) // TODO detecter les erreurs
         else if (c == '!')  {
             stack.back()->expr += '!';
         }
-        else
+        else if (isoper(c))
         {
             Node *n = new Node();
             n->expr = c;
@@ -71,21 +59,12 @@ void    print_tree(Node* root, int depth = 0)
     print_tree(root->right, depth+1);
 }
 
-bool isoper(char c)
-{
-    return string("&|<>=^").find(c) != string::npos;
-}
-
 char opposite(char op)
 {
     if (op == '&')
         return '|';
     if (op == '|')
         return '&';
-    // if (op == '=')
-    //     return '^';
-    // if (op == '^')
-    //     return '=';
     return op;
 }
 
@@ -154,6 +133,9 @@ void distribute_negation(Node* root)
 
 string negation_normal_form(string expr)
 {
+    if (eval_formula(expr) == -1)   {
+        return "ERROR";
+    }
     Node* root = expr_to_tree(expr);
 
     // print_tree(root);
@@ -162,20 +144,4 @@ string negation_normal_form(string expr)
     string res = tree_to_expr(root);
     clear_tree(root);
     return res;
-}
-
-int main(int ac, char** argv)
-{
-    if (ac > 1)
-    {
-        string equi = negation_normal_form(argv[1]);
-        cout << argv[1] << " " << equi << "\t" << (check_equivalence(argv[1], equi)? "OK!" : "NOOOOPE") << endl;
-    }
-    cout << negation_normal_form("CD!&!") << endl;
-    cout << negation_normal_form("AB|!") << endl;
-    cout << negation_normal_form("AB>!") << endl;
-    cout << negation_normal_form("AB<") << endl;
-    cout << negation_normal_form("AB=") << endl;
-    cout << negation_normal_form("AB=!") << endl;
-    cout << negation_normal_form("AB^!") << endl;
 }
