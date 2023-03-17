@@ -24,7 +24,7 @@ Node *expr_to_tree(string formula);
 string tree_to_expr(Node* root);
 Node *clone_tree(Node *root);
 void distribute_negation(Node* root);
-void print_tree(Node* root, int depth);
+void print_tree(Node* root, int depth=0, int side=0);
 void clear_tree(Node *root);
 
 

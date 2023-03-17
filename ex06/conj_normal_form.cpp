@@ -4,31 +4,23 @@ void distribute_disjunction(Node* root)
 {
     if (!root)
         return;
+
     if (root->expr[0] == '|')
     {
         if (root->left->expr[0] == '&')
         {
-            Node *clonel = clone_tree(root->left);
-            Node *cloner = clone_tree(root->left);
-            clear_tree(root->left->left);
-            clear_tree(root->left->right);
-            clonel->expr = "|";
-            cloner->expr = "|";
-            root->left->expr = "&";
-            root->left->left = clonel;
-            root->left->right = cloner;
+            // Node *clonel = clone_tree(root->left);
+            // Node *cloner = clone_tree(root->left);
+            // clear_tree(root->left->left);
+            // clear_tree(root->left->right);
+            // clonel->expr = "|";
+            // cloner->expr = "|";
+            // root->expr = "&";
+            // root->left->left = clonel;
+            // root->left->right = cloner;
         }
         if (root->right->expr[0] == '&')
         {
-            Node *clonel = clone_tree(root->right);
-            Node *cloner = clone_tree(root->right);
-            clear_tree(root->right->left);
-            clear_tree(root->right->right);
-            clonel->expr = "|";
-            cloner->expr = "|";
-            root->right->expr = "&";
-            root->right->left = clonel;
-            root->right->right = cloner;
         }
     }
     distribute_disjunction(root->left);
@@ -44,9 +36,9 @@ string conj_normal_form(string expr)
 
     // print_tree(root);
     distribute_negation(root);
-    // print_tree(root);
+    print_tree(root);
     distribute_disjunction(root);
-    // print_tree(root);
+    print_tree(root);
     string res = tree_to_expr(root);
     clear_tree(root);
     return res;

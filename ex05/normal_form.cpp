@@ -47,16 +47,23 @@ void clear_tree(Node *root)
     delete root;    
 }
 
-void    print_tree(Node* root, int depth = 0)
+void    print_tree(Node* root, int depth, int side)
 {
     if (!root)  {
         return;
     }
-    print_tree(root->left, depth+1);
+    print_tree(root->left, depth+1, -1);
     for (int i = 0; i<depth; i++)
         printf("    ");
-    printf("%s\n", root->expr.c_str());
-    print_tree(root->right, depth+1);
+
+    string prefix = ": ";
+    if (side == -1)
+        prefix = ",--";
+    else if (side == 1)
+        prefix = "`--";
+
+    cout << prefix << root->expr << endl;
+    print_tree(root->right, depth+1, 1);
 }
 
 char opposite(char op)
