@@ -17,7 +17,7 @@ void distribute_disjunction(Node* root)
         if (root->right->expr[0] == '&')
         {
             Node *A = root->left;
-            Node *Aclone = clone_tree(root->left);
+            Node *Aclone = clone_tree(A);
 
             root->expr = "&";
             root->left = new Node();
@@ -32,6 +32,27 @@ void distribute_disjunction(Node* root)
 
     distribute_disjunction(root->left);
     distribute_disjunction(root->right);
+
+    char curr_op = root->expr[0];
+    if (isoper(curr_op) && root->left->expr[0] == curr_op)
+    {
+        // rotate if &&&
+        if (root->right->expr[0] == curr_op)
+        {
+            Node* lastright = root->right;
+            root->right = root->left;
+            root->left = root->right->left;
+            root->right->left = root->right->right;
+            root->right->right = lastright;
+        }
+        else
+        {
+            Node *tmp = root->left;
+            root->left = root->right;
+            root->right = tmp;
+        }
+    }
+
 }
 
 string conj_normal_form(string expr)
@@ -43,9 +64,9 @@ string conj_normal_form(string expr)
 
     // print_tree(root);
     distribute_negation(root);
-    print_tree(root);
+    // print_tree(root);
     distribute_disjunction(root);
-    print_tree(root);
+    // print_tree(root);
     string res = tree_to_expr(root);
     clear_tree(root);
     return res;
