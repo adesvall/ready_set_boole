@@ -1,9 +1,6 @@
-#include <string>
-#include <vector>
 #include <map>
 #include <algorithm>
-#include <iostream>
-#include "main.hpp"
+#include "../main.hpp"
 
 using namespace std;
 
@@ -38,21 +35,4 @@ vector<int> eval_set(string &formula, vector<vector<int>> &sets)
         // cout << pair.first << "  " << values << " " << f << "  " << pair.second << endl;
     }
     return result;
-}
-
-int main()
-{
-    vector<vector<int>> sets;
-    sets.push_back({0, 1, 2, 3, 4});
-    sets.push_back({0, 1, 2, 5, 6});
-    sets.push_back({0, 1, 7, 8});
-    string formula = "CD=";
-
-    vector<int> result = eval_set(formula, sets);
-
-    cout << "{\t";
-    for (int a : result)
-        cout << a << ", ";
-    cout << "\t}," << endl;
-
 }
