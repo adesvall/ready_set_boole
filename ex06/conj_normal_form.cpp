@@ -1,5 +1,7 @@
 #include "../main.hpp"
 
+// A | (B & C) -> (A | B) & (A | C)
+// (A & B) | (C & D) -> ((A & B) | C) & ((A & B) | D)
 void distribute_disjunction(Node* root)
 {
     if (!root)
