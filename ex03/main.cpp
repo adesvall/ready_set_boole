@@ -1,13 +1,18 @@
 #include "../main.hpp"
 
+void test(string expr)
+{
+    cout << expr << " => " << eval_formula(expr) << endl;
+}
+
 int main()
 {
-    cout << eval_formula("10&") << endl;
-    cout << eval_formula("01&") << endl;
-    cout << eval_formula("11&") << endl;
-    cout << eval_formula("001||") << endl;
-    cout << eval_formula("00|1&") << endl;
-    cout << eval_formula("0!1&!") << endl;
-    cout << eval_formula("0!1!>!") << endl;
-    cout << eval_formula("11&11&=") << endl;
+    test("10&");
+    test("01&");
+    test("11&");
+    test("001||");
+    test("00|1&");
+    test("0!1&!");
+    test("0!1!>!");
+    test("11&11&=");
 }

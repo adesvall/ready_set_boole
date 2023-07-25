@@ -2,23 +2,28 @@
 
 bool sat(string expr);
 
+void test(string expr)
+{
+    cout << expr << "\t=> " << sat(expr) << endl;
+}
+
 int main(int ac, char** argv)
 {
     if (ac > 1)     {
-        cout << sat(argv[1]) << endl;
+        test(argv[1]);
         return 0;
     }
     else
     {
-        cout << sat("AB|") << endl;
+        test("AB|");
         // true
-        cout << sat("AB&") << endl;
+        test("AB&");
         // true
-        cout << sat("AA!&") << endl;
+        test("AA!&");
         // false
-        cout << sat("AA^") << endl;
+        test("AA^");
         // false
-        cout << sat("AB&AB|!&") << endl;
+        test("AB&AB|!&");
         // false
     }
 }

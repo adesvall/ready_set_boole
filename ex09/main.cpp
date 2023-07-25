@@ -15,7 +15,7 @@ void test(string formula, vector<vector<int>>& sets)
     }
     cout << endl;
     vector<int> result = eval_set(formula, sets);
-    cout << formula << " = {";
+    cout << formula << " => {";
     for (int a : result)
         cout << a << ", ";
     cout << "}" << endl << endl;

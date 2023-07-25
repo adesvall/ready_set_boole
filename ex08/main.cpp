@@ -17,8 +17,8 @@ void print_powerset(vector<vector<int>>& pwset)
 
 int main()
 {
-    vector<vector<int>> pwset = powerset({0, 1, 2, 3, 4, 5});
+    vector<vector<int>> pwset = powerset({3, 4, 5, 64});
     print_powerset(pwset);
-    cout << pwset.size() << endl;
+    cout << "Cardinal : " << pwset.size() << endl;
 }
 

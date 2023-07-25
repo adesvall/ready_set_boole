@@ -23,7 +23,6 @@ int main(int ac, char** argv)
         test("AB=");
         test("AB=!");
         test("AB^!");
-        test("AB");
-        test("AB&&");
+        test("AB&!");
     }
 }
