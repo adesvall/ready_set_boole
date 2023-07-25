@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <vector>
 
 using namespace std;
 
@@ -26,7 +27,6 @@ Node *clone_tree(Node *root);
 void distribute_negation(Node* root);
 void print_tree(Node* root, int depth=0, int side=0);
 void clear_tree(Node *root);
-
-
+bool sat(string formula);
 
 #endif

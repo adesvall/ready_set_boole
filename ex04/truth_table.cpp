@@ -74,7 +74,7 @@ void print_truth_table(string formula)
         cout << "---|";
     cout << "---|" << endl;
 
-    for (unsigned i = 0; i < (1 << count); i++) {
+    for (unsigned i = 0; i < (1u << count); i++) {
         cout << "|";
         for (unsigned j = 0; variables[j]; j++)
             cout << " " << ((i >> j) & 1) << " |";
@@ -113,7 +113,7 @@ bool check_equivalence(string formula1, string formula2)
     }
     variables[count] = 0;
 
-    for (unsigned i = 0; i < (1 << count); i++) {
+    for (unsigned i = 0; i < (1u << count); i++) {
         string to_eval1 = replace_var(formula1, variables, i);
         string to_eval2 = replace_var(formula2, variables, i);
         bool res1 = eval_formula(to_eval1);

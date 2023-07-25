@@ -16,14 +16,18 @@ int main(int ac, char** argv)
     }
     else
     {
-        test("CD!&!");
+        test("AB&!");
+        // A!B!|
         test("AB|!");
-        test("AB>");
-        test("AB<!");
-        test("AB=");
-        test("AB=!");
-        test("AB^!");
-        test("AB");
-        test("AB&&");
+        // A!B!&
+        test("AB|C&");
+        // AB|C&
+        test("AB|C|D|");
+        // ABCD|||
+        test("AB&C&D&");
+        // ABCD&&&
+        test("AB&!C!|");
+        // A!B!C!||
+        test("AB|!C!&");
     }
 }
